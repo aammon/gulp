@@ -1,0 +1,19 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+.test {
+  color: red;
+  border: solid 1px blue;
+}
+
+.test {
+  box-shadow: 0 0 blue;
+}
+/*# sourceMappingURL=../maps/style.css.map */

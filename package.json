@@ -1,0 +1,36 @@
+{
+  "name": "new",
+  "version": "1.0.0",
+  "description": "test gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.17.5",
+    "browserify": "^13.1.1",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-cache": "^0.4.5",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-csso": "^2.0.0",
+    "gulp-if": "^2.0.1",
+    "gulp-imagemin": "^3.1.0",
+    "gulp-load-plugins": "^1.4.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-shorthand": "^1.1.0",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-uncss": "^1.0.6",
+    "gulp-useref": "^3.1.2",
+    "node-bourbon": "^4.2.8",
+    "node-neat": "^1.7.2",
+    "run-sequence": "^1.2.2",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

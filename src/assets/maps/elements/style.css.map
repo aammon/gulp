@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA;EACE,WAAW;EACX,uBAAuB;CACxB;;AAED;EACE,qBAAqB;CACtB","file":"../../scss/elements/style.css","sourcesContent":[".test {\n  color: red;\n  border: solid 1px blue;\n}\n\n.test {\n  box-shadow: 0 0 blue;\n}"]}
