@@ -1,51 +1,38 @@
 var gulp = require('gulp');
+var argv = require('yargs').argv;
+var gulpIf = require('gulp-if');
+var sourcemaps = require('gulp-sourcemaps');
+var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
 var shorthand = require('gulp-shorthand');
 var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
-var browserSync = require('browser-sync');
-var useref = require('gulp-useref');
-var uglify = require('gulp-uglify');
-var gulpIf = require('gulp-if');
 var uncss = require('gulp-uncss');
 var csscomb = require('gulp-csscomb');
 var csso = require('gulp-csso');
-var bourbon = require('node-bourbon').includePaths;;
-var neat = require('node-neat').includePaths;;
+var bourbon = require('node-bourbon').includePaths;
+var neat = require('node-neat').includePaths;
+var useref = require('gulp-useref');
+var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var del = require('del');
 var rename = require('gulp-rename');
+var nunjucksRender = require('gulp-nunjucks-render');
+var data = require('gulp-data');
+var htmlreplace = require('gulp-html-replace');
 var runSequence = require('run-sequence');
 
 gulp.task('browserSync', function(){
     browserSync({
         server: {
-            baseDir: 'src'
-        }
+            baseDir: 'dist'
+        },
+        browser: "google chrome"
     });
 });
 /* --- STYLE TASKS--- */
-gulp.task('styles', function() {
-  return gulp.src('src/assets/scss/style.scss')
-    .pipe(sourcemaps.init())
-        .pipe(sass({
-            includePaths: bourbon,
-            includePaths: neat
-            }))
-        .pipe(autoprefixer({
-	       browsers: ['last 3 versions'],
-	       cascade: false
-	       }))
-        .pipe(csso())
-        .pipe(rename({suffix:'.min'}))
-    .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest('./app/css')) 
-    .pipe(browserSync.reload({stream: true}));
-})
-
-gulp.task('stylesTwo',function(){
-    return gulp.src('src/assets/scss/style.scss')
+gulp.task('styles',function(){
+    return gulp.src('app/assets/scss/**/*.scss')
     .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: bourbon,
@@ -57,76 +44,76 @@ gulp.task('stylesTwo',function(){
             browsers: ['last 3 versions'],
             cascade: false
 	    }))
+        .pipe(gulpIf(argv.production, rename({suffix:'.min'})))
+        .pipe(gulpIf(argv.production, csso()))
     .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest('src/assets/css'))
-    .pipe(gulp.dest('./dist/css'))
+    .pipe(gulp.dest('dist/assets/css'))
     .pipe(browserSync.reload({stream:true}));
-})
-
+});
 /*--- SCRIPT TASKS ---*/
 gulp.task('scripts',function(){
-    return gulp.src('src/assets/js/**/*.js')
-    .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(rename({suffix:'.min'}))
-    .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest('./app/js'))
-    .pipe(browserSync.reload({stream:true}));
-})
-
-gulp.task('scriptsTwo',function(){
-    return gulp.src('src/assets/js/**/*.js')
+    return gulp.src('app/assets/js/**/*.js')
         .pipe(sourcemaps.init())
+            .pipe(gulpIf(argv.production, uglify()))
+            .pipe(gulpIf(argv.production, rename({suffix:'.min'})))
         .pipe(sourcemaps.write('../maps'))
-        .pipe(gulp.dest('./dist/js'))
+        .pipe(gulp.dest('dist/assets/js'))
         .pipe(browserSync.reload({stream:true}));
-})
-
+});
 /*--- HTML ---*/
-gulp.task('html', function(){
-    gulp.src('src/**/*.html')
-    .pipe(gulp.dest('./dist'))
-    .pipe(gulp.dest('./app'))
-    .pipe(browserSync.reload({stream:true}));
-})
-
+gulp.task('nunjucks', function () {
+    return gulp.src('app/pages/**/*.+(html|nunjucks)')
+        .pipe(data(function () {
+            return require('./app/data/data.json');
+        }))
+        .pipe(nunjucksRender({
+            path: ['app/templates']
+        }))
+        .pipe(gulpIf(argv.production, htmlreplace({
+        'css': './assets/css/app.min.css',
+        'js': 'js/main.min.js'
+    })))
+        .pipe(gulp.dest('dist'))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+});
 /* --- Watch Task ---*/
 gulp.task ('watch', function(){
-	gulp.watch('src/assets/scss/**/*.scss', ['styles','stylesTwo']);
-	gulp.watch('src/assets/js/**/*.js', ['scripts','scriptsTwo']);
-  	gulp.watch('src/**/*.html', ['html']);
-})
+	gulp.watch('app/assets/scss/**/*.scss', ['styles']);
+	gulp.watch('app/assets/js/**/*.js', ['scripts']);
+  	gulp.watch('app/**/*.nunjucks', ['nunjucks']);
+    gulp.watch('app/assets/images/*', ['images']);
+});
 
 /* --- IMAGE TASKS ---*/
 gulp.task('images', function() {
-  return gulp.src('src/assets/img/**/*.+(png|jpg|jpeg|gif|svg)')
+  return gulp.src('app/assets/img/**/*.+(png|jpg|jpeg|gif|svg)')
     .pipe(cache(imagemin({
       interlaced: true,
+      progressive: true
     })))
-    .pipe(gulp.dest('./app/images'))
-   .pipe(gulp.dest('./dist/images'))
+   .pipe(gulp.dest('./dist/assets/img'))
 });
-
+/* --- Font Tasks --- */    
+gulp.task('fonts', function () {
+    return gulp.src('app/assets/fonts/**/*')
+        .pipe(gulp.dest('dist/assets/fonts'))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+});    
 /*---- CLEAN TASKS ---*/
 gulp.task('clean', function() {
-  return del.sync('./app/').then(function(cb) {
+  return del.sync('dist').then(function(cb) {
     return cache.clearAll(cb);
   });
-})
-gulp.task('clean:app', function() {
-  return del.sync(['./app/**/*', '!./app/images', '!./app/images/**/*']);
+});
+gulp.task('clean:dist', function () {
+    return del.sync(['dist/**/*', '!dist/images', '!dist/images/**/*']);
 });
 /*--- BUILD TASKS ---*/
-gulp.task('default', function(callback) {
-  runSequence(['scriptsTwo', 'stylesTwo', 'html', 'images', 'browserSync', 'watch'],
-    callback
-  )
-})
-
-gulp.task('build', function(callback) {
-  runSequence(
-    'clean:app',
-    ['scripts','styles','html','images'],
-    callback
-  )
-})
+gulp.task('default', function(cb) {
+  runSequence('clean:dist', 
+              ['scripts', 'styles', 'nunjucks', 'images', 'fonts', 'browserSync', 'watch'], cb )
+});
