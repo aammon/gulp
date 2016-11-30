@@ -4,4 +4,5 @@ cd into root directory
 2. gulp 
 
 For Production
-3. gulp --production
+
+1. gulp --production
