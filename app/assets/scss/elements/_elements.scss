@@ -1,0 +1,30 @@
+
+.block{
+    width:100%; text-align:center;
+&__image1{ height: 500px;display : block;
+    margin : auto;}
+}
+h1{font-size:24px;}
+p{color:#4a4a4a;font-family:serif;font-size:16px}
+code{background:black;color:white;font-family:monospace; padding:0px 5px;}
+div.container {
+  @include outer-container;
+    .section1 {
+  @include span-columns(6);
+        @include shift(4);
+}
+ .section1 {
+  @include media($tablet) { // As defined in _grid-settings.scss
+    @include span-columns(6);
+      @include shift(3);
+  }
+}
+.section1 {
+  @include media($mobile) { // As defined in _grid-settings.scss
+    @include span-columns(4);
+      @include shift(1);
+  }
+}        
+}
+
+

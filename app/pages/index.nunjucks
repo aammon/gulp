@@ -1,0 +1,19 @@
+{% extends "layout.nunjucks" %}
+{% block content %}
+<br/>
+<div class="block">
+   <img src="./assets/img/gulp.png" alt="Gulp Build" class="block__image1">
+    </div>
+<div class="container">
+    <section class="section1">
+        <div>
+        <br/>
+        <h1>How to get started - </h1>
+        <p>cd into the root directory</p>
+            <p>run <code>npm install</code> to collect all of the modules</p>
+        <p>run <code>gulp</code></p>
+            <p>run <code>gulp --production</code> for production</p>
+        </div>
+    </section>
+</div>
+{% endblock %}
