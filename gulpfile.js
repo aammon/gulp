@@ -11,7 +11,6 @@ var csscomb = require('gulp-csscomb');
 var csso = require('gulp-csso');
 var bourbon = require('node-bourbon').includePaths;
 var neat = require('node-neat').includePaths;
-var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
@@ -21,6 +20,8 @@ var nunjucksRender = require('gulp-nunjucks-render');
 var data = require('gulp-data');
 var htmlreplace = require('gulp-html-replace');
 var runSequence = require('run-sequence');
+var sizereport = require('gulp-sizereport');
+var htmlmin = require('gulp-html-minifier');
 
 gulp.task('browserSync', function(){
     browserSync({
@@ -46,6 +47,9 @@ gulp.task('styles',function(){
 	    }))
         .pipe(gulpIf(argv.production, rename({suffix:'.min'})))
         .pipe(gulpIf(argv.production, csso()))
+        .pipe(gulpIf(argv.production, sizereport({
+            gzip: true
+        })))
     .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('dist/assets/css'))
     .pipe(browserSync.reload({stream:true}));
@@ -55,6 +59,7 @@ gulp.task('scripts',function(){
     return gulp.src('app/assets/js/**/*.js')
         .pipe(sourcemaps.init())
             .pipe(gulpIf(argv.production, uglify()))
+            .pipe(gulpIf(argv.production, sizereport({ gzip: true })))
             .pipe(gulpIf(argv.production, rename({suffix:'.min'})))
         .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest('dist/assets/js'))
@@ -73,6 +78,7 @@ gulp.task('nunjucks', function () {
         'css': './assets/css/app.min.css',
         'js': 'js/main.min.js'
     })))
+        .pipe(gulpIf(argv.production, htmlmin({collapseWhitespace: true})))
         .pipe(gulp.dest('dist'))
         .pipe(browserSync.reload({
             stream: true
@@ -83,7 +89,7 @@ gulp.task ('watch', function(){
 	gulp.watch('app/assets/scss/**/*.scss', ['styles']);
 	gulp.watch('app/assets/js/**/*.js', ['scripts']);
   	gulp.watch('app/**/*.nunjucks', ['nunjucks']);
-    gulp.watch('app/assets/images/*', ['images']);
+    gulp.watch('app/assets/img/*', ['images']);
 });
 
 /* --- IMAGE TASKS ---*/
