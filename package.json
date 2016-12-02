@@ -1,13 +1,13 @@
 {
-  "name": "new",
+  "name": "GulpDevKit",
   "version": "1.0.0",
-  "description": "test gulp",
+  "description": "Gulp Development Kit",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aaron",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.17.5",
     "del": "^2.2.2",
@@ -24,11 +24,9 @@
     "gulp-nunjucks-render": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
-    "gulp-shorthand": "^1.1.0",
     "gulp-sizereport": "^1.2.0",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
-    "gulp-uncss": "^1.0.6",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
     "run-sequence": "^1.2.2",

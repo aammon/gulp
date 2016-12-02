@@ -21,7 +21,7 @@ gulp --production
 
 Features | Tools Used
 ------ | -----
-**CSS** | [Sass](http://sass-lang.com/) ([Libsass](http://sass-lang.com/libsass) via [node-sass](https://github.com/sass/node-sass)), [Autoprefixer](https://github.com/postcss/autoprefixer), [CSSComb](https://www.npmjs.com/package/gulp-csscomb), [Shorthand](https://github.com/kevva/gulp-shorthand), [Bourbon/Neat](http://bourbon.io/), Sourcemaps
+**CSS** | [Sass](http://sass-lang.com/) ([Libsass](http://sass-lang.com/libsass) via [node-sass](https://github.com/sass/node-sass)), [Autoprefixer](https://github.com/postcss/autoprefixer), [CSSComb](https://www.npmjs.com/package/gulp-csscomb), [Bourbon/Neat](http://bourbon.io/), Sourcemaps
 **HTML** | [Nunjucks](https://mozilla.github.io/nunjucks/), [gulp-data](https://github.com/colynb/gulp-data)
 **Images** | Compression with [imagemin](https://www.npmjs.com/package/gulp-imagemin)
 **Fonts** | Folder

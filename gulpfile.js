@@ -4,9 +4,7 @@ var gulpIf = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
-var shorthand = require('gulp-shorthand');
 var autoprefixer = require('gulp-autoprefixer');
-var uncss = require('gulp-uncss');
 var csscomb = require('gulp-csscomb');
 var cssnano = require('gulp-cssnano');
 var bourbon = require('node-bourbon').includePaths;
@@ -39,8 +37,7 @@ gulp.task('styles',function(){
             includePaths: bourbon,
             includePaths: neat
         }))
-        .pipe(csscomb())
-        .pipe(shorthand())
+        .pipe(csscomb(csscomb.json))
         .pipe(autoprefixer({
             browsers: ['last 3 versions'],
             cascade: false
