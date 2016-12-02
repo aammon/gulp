@@ -8,7 +8,7 @@ var shorthand = require('gulp-shorthand');
 var autoprefixer = require('gulp-autoprefixer');
 var uncss = require('gulp-uncss');
 var csscomb = require('gulp-csscomb');
-var csso = require('gulp-csso');
+var cssnano = require('gulp-cssnano');
 var bourbon = require('node-bourbon').includePaths;
 var neat = require('node-neat').includePaths;
 var uglify = require('gulp-uglify');
@@ -46,7 +46,7 @@ gulp.task('styles',function(){
             cascade: false
 	    }))
         .pipe(gulpIf(argv.production, rename({suffix:'.min'})))
-        .pipe(gulpIf(argv.production, csso()))
+        .pipe(gulpIf(argv.production, cssnano()))
         .pipe(gulpIf(argv.production, sizereport({
             gzip: true
         })))
