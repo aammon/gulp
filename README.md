@@ -26,5 +26,5 @@ Features | Tools Used
 **Images** | Compression with [imagemin](https://www.npmjs.com/package/gulp-imagemin)
 **Fonts** | Folder
 **Live Updating** | [BrowserSync](http://www.browsersync.io/)
-**Production Builds** | JS [uglified](https://github.com/terinjokes/gulp-uglify), CSS [minified](http://cssnano.co/), & HTML [minified](https://www.npmjs.com/package/gulp-html-minifier) [file size reporting](https://github.com/jaysalvat/gulp-sizereport)
+**Production Builds** | JS [uglified](https://github.com/terinjokes/gulp-uglify), CSS [minified](http://cssnano.co/), & HTML [minified](https://www.npmjs.com/package/gulp-html-minifier), [file size reporting](https://github.com/jaysalvat/gulp-sizereport)
 
